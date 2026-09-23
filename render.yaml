@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: talentiq-backend
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: "pip install -r requirements.txt && python -m ml.train_models"
+    startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
+    envVars:
+      - key: DB_ENGINE
+        value: sqlite
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: FRONTEND_URL
+        value: "*"
+      - key: PYTHON_VERSION
+        value: 3.12.0
